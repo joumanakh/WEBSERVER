@@ -3,14 +3,19 @@ package server;
 import java.util.Objects;
 
 public class Request {
+	private static int requestId=0;
 	private Parameters parameters;
 	private int header;
 	private String body;
-	public Request(Parameters parameters, int header, String body) throws CloneNotSupportedException {
+	public Request(Parameters parameters, String body) throws CloneNotSupportedException {
 
 		this.parameters = (Parameters)parameters.clone();
-		this.header = header;
 		this.body = body;
+	}
+	public Request() {
+		this.header=requestId;
+		requestId++;
+		
 	}
 	public Parameters getParameters() {
 		return parameters;
@@ -21,9 +26,7 @@ public class Request {
 	public int getHeader() {
 		return header;
 	}
-	public void setHeader(int header) {
-		this.header = header;
-	}
+	
 	public String getBody() {
 		return body;
 	}
@@ -49,6 +52,14 @@ public class Request {
 	@Override
 	public String toString() {
 		return "Request [parameters=" + parameters + ", header=" + header + ", body=" + body + "]";
+	}
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		Request r=(Request)super.clone();
+		r.parameters = (Parameters)parameters.clone();
+		r.header = header;
+		r.body = body;
+		return r;
 	}
 	
 	

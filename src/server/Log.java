@@ -1,8 +1,8 @@
 package server;
-
+import java.util.ArrayList;
 public class Log {
     private static Log instance = null;
-    //private static ListArray<Request>=new ListArray<Request>();
+    private ArrayList<Request> requests=new ArrayList<Request>();
     private Log()
     {
       
@@ -13,6 +13,9 @@ public class Log {
             instance = new Log();
   
         return instance;
+    }
+    public  void saveRequest(Request request) {
+    	this.requests.add(request);
     }
 
 }

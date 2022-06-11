@@ -40,6 +40,12 @@ public class Response {
 	public String toString() {
 		return "Response [header=" + header + ", body=" + body + "]";
 	}
-	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		Response r=(Response)super.clone();
+		r.header = (Header)header.clone();
+		r.body = body;
+		return r;
+	}
 
 }

@@ -5,8 +5,8 @@ import java.util.Objects;
 public class Parameters {
 	private String filePath;
 	private String contentType;
-	private String action;
-	public Parameters(String filePath, String contentType, String action) {
+	private Action action;
+	public Parameters(String filePath, String contentType, Action action) {
 		this.filePath = filePath;
 		this.contentType = contentType;
 		this.action = action;
@@ -23,10 +23,10 @@ public class Parameters {
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
-	public String getAction() {
+	public Action getAction() {
 		return action;
 	}
-	public void setAction(String action) {
+	public void setAction(Action action) {
 		this.action = action;
 	}
 	@Override
