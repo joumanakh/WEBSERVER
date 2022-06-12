@@ -1,6 +1,12 @@
 package server;
 
+import java.io.IOException;
 import java.util.Objects;
+
+import org.json.simple.JSONObject;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 public class Request {
 	private static int requestId=0;
@@ -62,6 +68,11 @@ public class Request {
 		return r;
 	}
 	
+	public void makeRequestFromJason(JsonObject obj) {
+		Gson gson = new Gson(); 
+		Request r = gson.fromJson(obj, Request.class);
+		
+	}
 	
 
 }

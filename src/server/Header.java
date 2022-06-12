@@ -3,16 +3,19 @@ package server;
 import java.util.Objects;
 
 public class Header {
-	private String requestId;
+	private int requestId;
 	private ResponseCode responseCode;
 	private String contentType;
-	public Header(String requestId, ResponseCode responseCode, String contentType) {
+	public Header(int requestId, ResponseCode responseCode, String contentType) {
 		this.requestId = requestId;
 		this.responseCode = responseCode;
 		this.contentType = contentType;
 	}
-	public String getRequestId() {
+	public int getRequestId() {
 		return requestId;
+	}
+	public void setRequestId(int requestId) {
+		this.requestId=requestId;
 	}
 	public ResponseCode getResponseCode() {
 		return responseCode;

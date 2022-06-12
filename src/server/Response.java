@@ -2,6 +2,10 @@ package server;
 
 import java.util.Objects;
 
+import org.json.simple.JSONObject;
+
+import com.google.gson.Gson;
+
 public class Response {
 	private Header header;
 	private String body;
@@ -47,5 +51,9 @@ public class Response {
 		r.body = body;
 		return r;
 	}
-
+	public String responseToJason() {
+		
+		String jasonResponse=new Gson().toJson(this);
+		return jasonResponse;
+	}
 }
