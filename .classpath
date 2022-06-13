@@ -16,16 +16,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/user/.m2/repository/org/json/json/20190722/json-20190722.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/user/.m2/repository/org/json/json/20190722/json-20190722-sources.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/user/.m2/repository/com/google/code/gson/gson/2.2.4/gson-2.2.4-sources.jar">
 		<attributes>
 			<attribute name="module" value="true"/>

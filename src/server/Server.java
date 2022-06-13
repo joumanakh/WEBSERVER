@@ -20,6 +20,10 @@ public class Server {
 	private Response response;
 	private FileOperations fileOperations;
 	private static int port;
+	public Server(int port) {
+		this.port=port;
+		
+	}
 	public Server(Request request, Response response,FileOperations fileOperations) throws CloneNotSupportedException {
 		this.request = (Request)request.clone();
 		this.response =(Response)response.clone();
@@ -64,15 +68,13 @@ public class Server {
 		return "Server [request=" + request + ", response=" + response + "]";
 	}
 	//***************************functions***************
-	public void makeRequestFromJason(JsonObject obj) throws IOException {
+	/*public void makeRequestFromJason(JsonObject obj) throws IOException {
 		Gson gson = new Gson(); 
 		this.request = gson.fromJson(obj, Request.class);
 		this.response.getHeader().setAction(this.request.getParameters().getAction());
 		errors();
-		
-		
-
-	}
+	}*/
+	
 	public void errors() throws IOException {
 		this.fileOperations.setFilePath(this.request.getParameters().getFilePath());
 		if(this.fileOperations.error404()) {
@@ -100,8 +102,9 @@ public class Server {
 		
 		default:
 			return;
-		
+	
 	}
+		outputConnection();
 	}
 		
 	public void addToLog() {
@@ -112,26 +115,28 @@ public class Server {
 			
 		}
 	
-	public void connection(JSONObject obj,int port) {
-		this.port=port;
-		try {
-            serverSocket = new ServerSocket(port);
-            while(true) {
+	public void connection(ServerSocket serverSocket) throws IOException {
+		//this.port=port;
+		//try {
+           // serverSocket = new ServerSocket(port);
+           // while(true) {
             	 socket = serverSocket.accept();
             	 InputStream is = socket.getInputStream();
                  DataInputStream dis = new DataInputStream(is);
                  String s = dis.readUTF();
                  JsonObject json = new JsonParser().parse(s).getAsJsonObject();
                  this.request.makeRequestFromJason(json);
+                 this.response.getHeader().setAction(this.request.getParameters().getAction());
+         		errors();
                  //**************************
-            }
-        } catch (IOException  e) {
-            e.printStackTrace();
-        }
+          //  }
+        //} catch (IOException  e) {
+         //   e.printStackTrace();
+        //}
             }
 	
 	//public void inputConnection() {}
-	public void outputConnection(JSONObject obj) {
+	public void outputConnection() {
 		try {
         OutputStream os = socket.getOutputStream();
         DataOutputStream dos = new DataOutputStream(os);
