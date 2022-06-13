@@ -3,6 +3,7 @@ package server;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Objects;
@@ -61,18 +62,34 @@ protected Object clone() throws CloneNotSupportedException {
 	return f;
 }
 
-public void downloadFile() throws IOException {
-    String content = new String(Files.readAllBytes(Paths.get(filePath)));
-    response.setBody(content);
+public void downloadFile()  {
+    String content;
+	try {
+		content = new String(Files.readAllBytes(Paths.get(filePath)));
+		response.setBody(content);
+		response.getHeader().setResponseCode(ResponseCode.ok);
+	} catch (IOException e) {
+		response.getHeader().setResponseCode(ResponseCode.InternalServerError);
+		//e.printStackTrace();
+	}
+    
 }
-public void fileUploading(String body) throws IOException {
-    Files.write(Paths.get(filePath), body.getBytes(), StandardOpenOption.CREATE);
+public void fileUploading(String body)  {
+    try {
+		Files.write(Paths.get(filePath), body.getBytes(), StandardOpenOption.CREATE);
+		response.getHeader().setResponseCode(ResponseCode.ok);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		response.getHeader().setResponseCode(ResponseCode.InternalServerError);
+		//e.printStackTrace();
+	}
 }
 
 //public void displayListFolders(){}
 
 
-public void viewFolderContent() throws IOException {
+public void viewFolderContent()  {
+	
 	String[] pathnames;
 	  File f = new File(filePath);
       pathnames = f.list();
@@ -82,6 +99,7 @@ public void viewFolderContent() throws IOException {
     	  
       }
       response.setBody(body);
+	
 }
 
 public void deleteFile(){
@@ -89,5 +107,16 @@ public void deleteFile(){
 	if(!f.delete()) {
 		response.getHeader().setResponseCode(ResponseCode.InternalServerError);
 	}
+	else {response.getHeader().setResponseCode(ResponseCode.ok);}
+}
+
+
+public boolean error404() throws IOException {
+      Path path = Paths.get(filePath);
+    if(!Files.exists(path)) {
+    	  response.getHeader().setResponseCode(ResponseCode.notFound);
+    	  return false;
+      }
+    return true;
 }
 }

@@ -6,10 +6,18 @@ public class Header {
 	private int requestId;
 	private ResponseCode responseCode;
 	private String contentType;
-	public Header(int requestId, ResponseCode responseCode, String contentType) {
+	private Action action;
+	public Header(int requestId, ResponseCode responseCode, String contentType,Action action) {
 		this.requestId = requestId;
 		this.responseCode = responseCode;
 		this.contentType = contentType;
+		this.action=action;
+	}
+	public Action getAction() {
+		return action;
+	}
+	public void setAction(Action action) {
+		this.action = action;
 	}
 	public int getRequestId() {
 		return requestId;
@@ -31,7 +39,7 @@ public class Header {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(contentType, requestId, responseCode);
+		return Objects.hash(action, contentType, requestId, responseCode);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -42,13 +50,13 @@ public class Header {
 		if (getClass() != obj.getClass())
 			return false;
 		Header other = (Header) obj;
-		return Objects.equals(contentType, other.contentType) && Objects.equals(requestId, other.requestId)
+		return action == other.action && Objects.equals(contentType, other.contentType) && requestId == other.requestId
 				&& responseCode == other.responseCode;
 	}
 	@Override
 	public String toString() {
 		return "Header [requestId=" + requestId + ", responseCode=" + responseCode + ", contentType=" + contentType
-				+ "]";
+				+ ", action=" + action + "]";
 	}
 	@Override
 	public Object clone() throws CloneNotSupportedException {
@@ -56,6 +64,7 @@ public class Header {
 		h.requestId = requestId;
 		h.responseCode = responseCode;
 		h.contentType = contentType;
+		h.action=action;
 		return h;
 	}
 	

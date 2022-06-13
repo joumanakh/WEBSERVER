@@ -14,6 +14,8 @@ import java.net.Socket;
 import java.util.Objects;
 
 public class Server {
+	ServerSocket serverSocket;
+	Socket socket;
 	private Request request;
 	private Response response;
 	private FileOperations fileOperations;
@@ -65,13 +67,20 @@ public class Server {
 	public void makeRequestFromJason(JsonObject obj) throws IOException {
 		Gson gson = new Gson(); 
 		this.request = gson.fromJson(obj, Request.class);
-		chosenAction();
+		this.response.getHeader().setAction(this.request.getParameters().getAction());
+		errors();
+		
 		
 
 	}
+	public void errors() throws IOException {
+		this.fileOperations.setFilePath(this.request.getParameters().getFilePath());
+		if(this.fileOperations.error404()) {
+		chosenAction();}
+	}
 	
 	public void chosenAction() throws IOException {
-		this.fileOperations.setFilePath(this.request.getParameters().getFilePath());
+		
 		switch(this.request.getParameters().getAction()) {
 		case downloadFile:
 			this.fileOperations.downloadFile();
@@ -106,25 +115,34 @@ public class Server {
 	public void connection(JSONObject obj,int port) {
 		this.port=port;
 		try {
-            ServerSocket serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(port);
             while(true) {
-            	Socket socket = serverSocket.accept();
+            	 socket = serverSocket.accept();
             	 InputStream is = socket.getInputStream();
                  DataInputStream dis = new DataInputStream(is);
                  String s = dis.readUTF();
                  JsonObject json = new JsonParser().parse(s).getAsJsonObject();
                  this.request.makeRequestFromJason(json);
                  //**************************
-                 OutputStream os = socket.getOutputStream();
-                 DataOutputStream dos = new DataOutputStream(os);
-                 String result = this.getResponse().responseToJason();
-                 addToLog();
-                 dos.writeUTF(result);
             }
         } catch (IOException  e) {
             e.printStackTrace();
         }
             }
+	
+	//public void inputConnection() {}
+	public void outputConnection(JSONObject obj) {
+		try {
+        OutputStream os = socket.getOutputStream();
+        DataOutputStream dos = new DataOutputStream(os);
+        String result = this.getResponse().responseToJason();
+        addToLog();
+        dos.writeUTF(result);
+           }
+      catch (IOException  e) {
+      e.printStackTrace();
+        }
+	}
             	
             
 		
