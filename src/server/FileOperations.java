@@ -2,6 +2,7 @@ package server;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,11 +11,12 @@ import java.util.Objects;
 
 public class FileOperations {
  private String filePath;
- private Response response;
+ private Response response= new Response();
 
 public FileOperations(String filePath) {
 	this.filePath = filePath;
 }
+public FileOperations() {}
 
 public String getFilePath() {
 	return filePath;
@@ -76,7 +78,10 @@ public void downloadFile()  {
 }
 public void fileUploading(String body)  {
     try {
-		Files.write(Paths.get(filePath), body.getBytes(), StandardOpenOption.CREATE);
+		//Files.write(Paths.get(filePath), body.getBytes(), StandardOpenOption.CREATE);
+    	File f = new File(filePath);
+    	Path p = Paths.get(filePath);
+    	Files.write(Paths.get("C:\\Users\\user\\OneDrive\\Desktop\\serverSpace\\"+f.getName()), body.getBytes(), StandardOpenOption.CREATE);
 		response.getHeader().setResponseCode(ResponseCode.ok);
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
@@ -95,7 +100,7 @@ public void viewFolderContent()  {
       pathnames = f.list();
       String body="";
       for (String pathname : pathnames) {
-    	  body+=pathname+"/n";
+    	  body+=pathname+"\n";
     	  
       }
       response.setBody(body);
@@ -112,6 +117,7 @@ public void deleteFile(){
 
 
 public boolean error404() throws IOException {
+	  System.out.println(filePath);
       Path path = Paths.get(filePath);
     if(!Files.exists(path)) {
     	  response.getHeader().setResponseCode(ResponseCode.notFound);

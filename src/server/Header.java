@@ -7,12 +7,28 @@ public class Header {
 	private ResponseCode responseCode;
 	private String contentType;
 	private Action action;
+	private String filePath;
+	public Header(int requestId, ResponseCode responseCode, String contentType, Action action, String filePath) {
+		
+		this.requestId = requestId;
+		this.responseCode = responseCode;
+		this.contentType = contentType;
+		this.action = action;
+		this.filePath = filePath;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
 	public Header(int requestId, ResponseCode responseCode, String contentType,Action action) {
 		this.requestId = requestId;
 		this.responseCode = responseCode;
 		this.contentType = contentType;
 		this.action=action;
 	}
+	public Header() {}
 	public Action getAction() {
 		return action;
 	}
@@ -39,7 +55,7 @@ public class Header {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(action, contentType, requestId, responseCode);
+		return Objects.hash(action, contentType, filePath, requestId, responseCode);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -50,13 +66,14 @@ public class Header {
 		if (getClass() != obj.getClass())
 			return false;
 		Header other = (Header) obj;
-		return action == other.action && Objects.equals(contentType, other.contentType) && requestId == other.requestId
+		return action == other.action && Objects.equals(contentType, other.contentType)
+				&& Objects.equals(filePath, other.filePath) && requestId == other.requestId
 				&& responseCode == other.responseCode;
 	}
 	@Override
 	public String toString() {
 		return "Header [requestId=" + requestId + ", responseCode=" + responseCode + ", contentType=" + contentType
-				+ ", action=" + action + "]";
+				+ ", action=" + action + ", filePath=" + filePath + "]";
 	}
 	@Override
 	public Object clone() throws CloneNotSupportedException {

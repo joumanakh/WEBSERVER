@@ -13,7 +13,7 @@ import com.google.gson.JsonObject;
 
 public class Request {
 	private static int requestId=0;
-	private Parameters parameters;
+	private Parameters parameters=new Parameters();
 	private int header;
 	private String body;
 	public Request(Parameters parameters, String body) throws CloneNotSupportedException {
@@ -71,11 +71,11 @@ public class Request {
 		return r;
 	}
 	
-	public void makeRequestFromJason(JsonObject obj) {
+/*	public Request makeRequestFromJson(JsonObject obj) {
 		Gson gson = new Gson(); 
 		Request r = gson.fromJson(obj, Request.class);
-		
-	}
+		return r;
+	}*/
 
 	
 

@@ -11,6 +11,7 @@ public class Parameters {
 		this.contentType = contentType;
 		this.action = action;
 	}
+	public Parameters(){}
 	public String getFilePath() {
 		return filePath;
 	}

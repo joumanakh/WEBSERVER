@@ -7,12 +7,13 @@ import org.json.simple.JSONObject;
 import com.google.gson.Gson;
 
 public class Response {
-	private Header header;
+	private Header header=new Header();
 	private String body;
 	public Response(Header header, String body) throws CloneNotSupportedException {
 		this.header = (Header)header.clone();
 		this.body = body;
 	}
+	public Response() {}
 	public Header getHeader() {
 		return header;
 	}
